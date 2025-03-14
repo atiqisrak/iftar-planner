@@ -265,81 +265,165 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(0, 0, width, height);
 
-        // Basic styling
+        // Draw decorative header background
+        const gradient = ctx.createLinearGradient(0, 0, width, 0);
+        gradient.addColorStop(0, "#3a5468");
+        gradient.addColorStop(1, "#526b82");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, 70);
+
+        // Draw main title
+        ctx.font = "bold 24px Poppins, sans-serif";
+        ctx.fillStyle = "#ffffff";
+        ctx.textAlign = "center";
+        ctx.fillText("DU IBA ACMP Intake 6 Iftar", width / 2, 40);
+
+        // Draw decorative line under header
+        ctx.beginPath();
+        ctx.moveTo(30, 80);
+        ctx.lineTo(width - 30, 80);
+        ctx.strokeStyle = "#e9c46a";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Draw sub-header
         ctx.font = "18px Poppins, sans-serif";
         ctx.fillStyle = "#333333";
-
-        // Draw header
-        ctx.font = "bold 22px Poppins, sans-serif";
         ctx.textAlign = "center";
-        ctx.fillText("Order Summary", width / 2, 40);
+        ctx.fillText("Package Summary", width / 2, 110);
 
-        // Draw customer name
+        // Draw customer name with decorative elements
         ctx.font = "16px Poppins, sans-serif";
+        ctx.fillStyle = "#444444";
         ctx.textAlign = "center";
-        ctx.fillText(`Iftar Package by ${name}`, width / 2, 80);
+
+        // Draw decorative quotes around name
+        ctx.fillText(`Iftar Package by`, width / 2, 140);
+
+        // Draw name with highlight
+        ctx.font = "bold 18px Poppins, sans-serif";
+        const nameWidth = ctx.measureText(name).width;
+        const nameX = width / 2;
+        const nameY = 170;
+
+        // Draw decorative background for name
+        ctx.fillStyle = "#f8f4e3";
+        ctx.fillRect(
+          nameX - nameWidth / 2 - 15,
+          nameY - 18,
+          nameWidth + 30,
+          25
+        );
+
+        // Draw name
+        ctx.fillStyle = "#2a9d8f";
+        ctx.fillText(name, nameX, nameY);
+
+        // Draw decorative divider
+        ctx.beginPath();
+        ctx.moveTo(50, 190);
+        ctx.lineTo(width - 50, 190);
+        ctx.setLineDash([5, 3]);
+        ctx.strokeStyle = "#999999";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Draw items header
+        ctx.fillStyle = "#444444";
+        ctx.font = "16px Poppins, sans-serif";
+        ctx.textAlign = "left";
+        ctx.fillText("Items", 50, 220);
+        ctx.textAlign = "right";
+        ctx.fillText("Price", width - 50, 220);
 
         // Draw separator line
         ctx.beginPath();
-        ctx.moveTo(40, 100);
-        ctx.lineTo(width - 40, 100);
+        ctx.moveTo(50, 230);
+        ctx.lineTo(width - 50, 230);
         ctx.strokeStyle = "#dddddd";
         ctx.lineWidth = 1;
         ctx.stroke();
 
         // Draw items
+        ctx.fillStyle = "#333333";
         ctx.textAlign = "left";
         ctx.font = "14px Poppins, sans-serif";
 
-        let y = 130;
+        let y = 260;
         const items = document.querySelectorAll(".item input:checked");
         let subtotal = 0;
 
-        items.forEach((item) => {
+        items.forEach((item, index) => {
           const itemName = item.getAttribute("data-item");
           const price = parseFloat(item.getAttribute("data-price"));
           subtotal += price;
 
+          // Add alternating row background
+          if (index % 2 === 0) {
+            ctx.fillStyle = "#f9f9f9";
+            ctx.fillRect(40, y - 20, width - 80, 30);
+          }
+
+          ctx.fillStyle = "#333333";
+          ctx.textAlign = "left";
           ctx.fillText(itemName, 50, y);
           ctx.textAlign = "right";
           ctx.fillText(`৳${price}`, width - 50, y);
-          ctx.textAlign = "left";
 
-          y += 30;
+          y += 35;
         });
 
         // Draw separator line
-        y += 10;
+        y += 5;
         ctx.beginPath();
-        ctx.moveTo(40, y);
-        ctx.lineTo(width - 40, y);
+        ctx.moveTo(50, y);
+        ctx.lineTo(width - 50, y);
         ctx.strokeStyle = "#dddddd";
         ctx.lineWidth = 1;
         ctx.stroke();
 
-        // Draw subtotal
+        // Draw subtotal with light background
         y += 30;
+        ctx.fillStyle = "#f9f9f9";
+        ctx.fillRect(40, y - 20, width - 80, 30);
+
+        ctx.fillStyle = "#333333";
+        ctx.textAlign = "left";
         ctx.fillText("Subtotal:", 50, y);
         ctx.textAlign = "right";
         ctx.fillText(`৳${subtotal}`, width - 50, y);
 
         // Draw misc charge
-        y += 30;
+        y += 35;
         ctx.textAlign = "left";
         ctx.fillText("Miscellaneous Charge:", 50, y);
         ctx.textAlign = "right";
         ctx.fillText(`৳${MISC_CHARGE}`, width - 50, y);
 
-        // Draw total
-        y += 30;
+        // Draw total with highlight
+        y += 40;
+        ctx.fillStyle = "#e9c46a40"; // Light background for total
+        ctx.fillRect(40, y - 25, width - 80, 35);
+
         ctx.font = "bold 16px Poppins, sans-serif";
+        ctx.fillStyle = "#264653";
         ctx.textAlign = "left";
         ctx.fillText("Total:", 50, y);
         ctx.textAlign = "right";
         ctx.fillText(`৳${subtotal + MISC_CHARGE}`, width - 50, y);
 
+        // Draw decorative bottom border
+        y += 40;
+        const bottomGradient = ctx.createLinearGradient(0, 0, width, 0);
+        bottomGradient.addColorStop(0, "#e9c46a");
+        bottomGradient.addColorStop(0.5, "#f4a261");
+        bottomGradient.addColorStop(1, "#e76f51");
+        ctx.fillStyle = bottomGradient;
+        ctx.fillRect(0, y, width, 3);
+
         // Draw date
-        y += 50;
+        y += 30;
         ctx.font = "12px Poppins, sans-serif";
         ctx.textAlign = "center";
         ctx.fillStyle = "#777777";
@@ -351,6 +435,12 @@ document.addEventListener("DOMContentLoaded", () => {
           minute: "2-digit",
         });
         ctx.fillText(dateStr, width / 2, y);
+
+        // Draw footer text
+        y += 25;
+        ctx.font = "11px Poppins, sans-serif";
+        ctx.fillStyle = "#999999";
+        ctx.fillText("Thank you for your order", width / 2, y);
 
         // Create download link
         const link = document.createElement("a");
