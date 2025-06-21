@@ -22,12 +22,30 @@
         <form id="invitationForm">
           <div class="input-group">
             <label for="nameInput">Enter Your Name</label>
-            <input
-              type="text"
-              id="nameInput"
-              required
-              placeholder="Your full name"
-            />
+            <div class="input-with-button">
+              <input
+                type="text"
+                id="nameInput"
+                required
+                placeholder="Your full name"
+              />
+              <button type="button" class="paste-btn" id="pasteBtn">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                  ></path>
+                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                </svg>
+                Paste
+              </button>
+            </div>
           </div>
           <button type="submit" class="generate-btn">
             Generate Invitation

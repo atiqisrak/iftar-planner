@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const invitationCard = document.getElementById("invitationCard");
   const guestNameSpan = document.getElementById("guestName");
   const downloadBtn = document.getElementById("downloadBtn");
+  const pasteBtn = document.getElementById("pasteBtn");
 
   // Check if all required elements exist
   if (
@@ -12,7 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
     !nameInput ||
     !invitationCard ||
     !guestNameSpan ||
-    !downloadBtn
+    !downloadBtn ||
+    !pasteBtn
   ) {
     console.error("Required elements not found");
     return;
@@ -21,6 +23,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initially hide the invitation card
   invitationCard.style.display = "none";
   downloadBtn.style.display = "none";
+
+  // Handle paste button click
+  pasteBtn.addEventListener("click", async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      nameInput.value = text.trim();
+      nameInput.focus();
+    } catch (err) {
+      console.error("Failed to read clipboard:", err);
+    }
+  });
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
